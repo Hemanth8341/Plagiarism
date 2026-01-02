@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Plagiarism Detection System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="border-radius: 8px; margin-top: 20px;">
+    <h1><i class="fas fa-shield-alt"></i> Advanced Plagiarism Detection</h1>
+    <p>Detect plagiarism in text documents and images with industry-leading accuracy using advanced machine learning
+        algorithms.</p>
+
+    {% if user.is_authenticated %}
+    <div style="margin-top: 30px;">
+        <a href="{% url 'UploadSource' %}" class="btn btn-primary" style="margin-right: 15px;">
+            <i class="fas fa-file-alt"></i> Check Text Now
+        </a>
+        <a href="{% url 'UploadSourceImage' %}" class="btn btn-secondary">
+            <i class="fas fa-image"></i> Check Images Now
+        </a>
+    </div>
+    {% else %}
+    <div style="margin-top: 30px;">
+        <a href="{% url 'Login' %}" class="btn btn-primary" style="margin-right: 15px;">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+        <a href="{% url 'Register' %}" class="btn btn-secondary">
+            <i class="fas fa-user-plus"></i> Create Account
+        </a>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Features Section -->
+<section style="margin: 40px 0;">
+    <h2 class="text-center" style="margin-bottom: 30px; color: var(--primary-color);">Key Features</h2>
+
+    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <!-- Feature 1: Text Detection Logic -->
+        <div class="card" style="padding: 30px; border-top: 5px solid var(--accent-color); text-align: left;">
+            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <i class="fas fa-file-alt" style="font-size: 2.5rem; color: var(--accent-color);"></i>
+                <div>
+                    <h3 style="margin: 0; font-size: 1.3rem;">Text Analysis</h3>
+                    <small style="color: var(--text-muted);">LCS Algorithm</small>
+                </div>
+            </div>
+            <p style="margin-bottom: 15px;">We calculate the <strong>Longest Common Subsequence (LCS)</strong> to
+                measure structural similarity between documents.</p>
+            <div
+                style="background: #f0f9ff; padding: 15px; border-radius: 8px; border: 1px dashed var(--accent-color); font-size: 0.95rem;">
+                <strong style="color: var(--primary-color); display: block; margin-bottom: 5px;"><i
+                        class="fas fa-gavel me-2"></i>Decision Rule:</strong>
+                <ul style="margin: 0; padding-left: 20px; color: #4b5563;">
+                    <li style="margin-bottom: 5px;"><strong>If Score >= 60%:</strong> <span
+                            style="color: #dc2626; font-weight: bold;">Plagiarism Detected</span></li>
+                    <li><strong>If Score < 60%:</strong> <span style="color: #059669; font-weight: bold;">No Plagiarism
+                                    (Safe)</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Feature 2: Image Detection Logic -->
+        <div class="card" style="padding: 30px; border-top: 5px solid var(--secondary-color); text-align: left;">
+            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <i class="fas fa-image" style="font-size: 2.5rem; color: var(--secondary-color);"></i>
+                <div>
+                    <h3 style="margin: 0; font-size: 1.3rem;">Image Analysis</h3>
+                    <small style="color: var(--text-muted);">Histogram Matching</small>
+                </div>
+            </div>
+            <p style="margin-bottom: 15px;">We use <strong>Histogram Intersection</strong> to compare color and
+                intensity distributions pixel-by-pixel.</p>
+            <div
+                style="background: #fdf2f8; padding: 15px; border-radius: 8px; border: 1px dashed var(--secondary-color); font-size: 0.95rem;">
+                <strong style="color: var(--secondary-dark); display: block; margin-bottom: 5px;"><i
+                        class="fas fa-gavel me-2"></i>Decision Rule:</strong>
+                <ul style="margin: 0; padding-left: 20px; color: #4b5563;">
+                    <li style="margin-bottom: 5px;"><strong>If Similarity >= 60%:</strong> <span
+                            style="color: #dc2626; font-weight: bold;">Plagiarism Detected</span></li>
+                    <li><strong>If Similarity < 60%:</strong> <span style="color: #059669; font-weight: bold;">No
+                                    Plagiarism (Safe)</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card text-center" style="display: flex; flex-direction: column; justify-content: center;">
+            <i class="fas fa-bolt" style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 15px;"></i>
+            <h3>Lightning Fast</h3>
+            <p>Instant results with detailed similarity scores and comprehensive reports.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card text-center" style="display: flex; flex-direction: column; justify-content: center;">
+            <i class="fas fa-lock" style="font-size: 2.5rem; color: var(--success-color); margin-bottom: 15px;"></i>
+            <h3>Secure & Private</h3>
+            <p>Enterprise-grade security with secure file handling and user authentication.</p>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section style="margin: 60px 0; background: white; padding: 40px; border-radius: 8px; box-shadow: var(--shadow-card);">
+    <h2 class="text-center" style="margin-bottom: 40px; color: var(--primary-color);">How It Works</h2>
+
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="text-center">
+            <div
+                style="width: 60px; height: 60px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px; font-weight: bold;">
+                1</div>
+            <h3>Upload File</h3>
+            <p>Upload your text document or image file for analysis.</p>
+        </div>
+
+        <div class="text-center">
+            <div
+                style="width: 60px; height: 60px; background: var(--accent-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px; font-weight: bold;">
+                2</div>
+            <h3>Analyze</h3>
+            <p>Our algorithms compare against comprehensive databases.</p>
+        </div>
+
+        <div class="text-center">
+            <div
+                style="width: 60px; height: 60px; background: var(--secondary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px; font-weight: bold;">
+                3</div>
+            <h3>Get Results</h3>
+            <p>Receive detailed results with similarity percentages.</p>
+        </div>
+    </div>
+</section>
+
+{% if not user.is_authenticated %}
+<section
+    style="margin: 40px 0; text-align: center; background: var(--primary-color); color: white; padding: 40px; border-radius: 8px;">
+    <h2 style="margin-bottom: 20px;">Ready to Get Started?</h2>
+    <p style="margin-bottom: 30px; opacity: 0.9;">Join thousands of users who trust PlagCheck.</p>
+    <div>
+        <a href="{% url 'Register' %}" class="btn btn-primary"
+            style="background: white; color: var(--primary-color); border: none;">Sign Up Free</a>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

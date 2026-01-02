@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plagiarism Detection{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="/index.html" class="navbar-brand">
+            <i class="fas fa-search-location"></i> Plagiarism Detector
+        </a>
+        <nav class="navbar-links">
+            <a href="/index.html">Home</a>
+            {% if user.is_authenticated %}
+            <a href="/UploadSuspiciousFile">Check Text</a>
+            <a href="/UploadSuspiciousImage">Check Image</a>
+            <span style="color: rgba(255,255,255,0.8); margin-left: 10px;">Hi, {{ user.username }}</span>
+            <a href="/logout" class="btn btn-primary" style="padding: 5px 15px; font-size: 0.8rem;">Logout</a>
+            {% else %}
+            <a href="/Login.html">Login</a>
+            <a href="/Register.html" class="btn btn-primary">Sign Up</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Plagiarism Detection System. By B.Hemanth Reddy.</p>
+    </footer>
+</body>
+
+</html>

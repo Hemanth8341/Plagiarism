@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plagiarism Detection System{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body { height: 100%; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff; /* white page background */
+            color: #111; /* default text black */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #0b0b0b; /* dark header like attached image */
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            padding: 1rem 1.5rem;
+        }
+
+        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+
+        .logo { font-size: 2.2rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+
+        .nav-links a { text-decoration: none; color: #fff; font-weight: 600; transition: color 0.2s ease; }
+        .nav-links a:hover { color: #a9e0ff; }
+
+        main { flex: 1; max-width: 1200px; margin: 2rem auto; padding: 0 1.25rem; width: 100%; }
+
+        .container { background: #ffffff; border-radius: 12px; padding: 2rem; box-shadow: 0 8px 30px rgba(18,18,18,0.06); animation: slideUp 0.45s ease-out; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
+
+        h1, h2 { color: #111; margin-bottom: 1rem; }
+        h1 { font-size: 2.25rem; }
+        h2 { font-size: 1.25rem; color: #111; }
+
+        p { color: #222; line-height: 1.6; margin-bottom: 1rem; }
+
+        .btn { display: inline-block; padding: 0.6rem 1.25rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.18s ease; text-decoration: none; text-align: center; }
+
+        /* primary buttons use green to match product 'Add to Cart' */
+        .btn-primary { background: #28a745; color: #fff; box-shadow: 0 6px 18px rgba(40,167,69,0.12); }
+        .btn-primary:hover { background: #1f8f3c; transform: translateY(-2px); }
+
+        .btn-secondary { background: #f4f4f4; color: #111; border: 1px solid #e6e6e6; }
+        .btn-sm { padding: 0.45rem 0.85rem; font-size: 0.9rem; }
+
+        form { display: flex; flex-direction: column; gap: 1rem; }
+        .form-group { display:flex; flex-direction:column; gap:0.5rem; }
+        label { color: #111; font-weight: 600; font-size: 0.98rem; }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="file"], textarea, select {
+            padding: 0.7rem 0.9rem; border: 1px solid #e8e8e8; border-radius: 8px; font-size: 1rem; font-family: inherit; transition: box-shadow .18s ease, border-color .18s ease; background: #fff; color: #111;
+        }
+
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #9bd3ff; box-shadow: 0 4px 18px rgba(66,153,225,0.08); }
+
+        textarea { resize: vertical; min-height: 120px; }
+
+        .file-list { display:grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; margin:2rem 0; }
+
+        .file-card { background: #fff; border: 1px solid #f0f0f0; border-radius: 12px; padding:1.25rem; transition: all .18s ease; box-shadow: 0 6px 20px rgba(18,18,18,0.04); }
+        .file-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(18,18,18,0.06); border-color: #e8f8ef; }
+
+        .file-name { font-weight:700; color: #111; margin-bottom: 0.5rem; }
+        .file-size { font-size:0.9rem; color:#6b6b6b; }
+
+        table { width:100%; border-collapse: collapse; margin-top:1rem; }
+        thead { background: linear-gradient(135deg,#edf9f1 0%, #dff3e6 100%); color: #111; }
+        th, td { padding:0.9rem; text-align:left; border-bottom: 1px solid #f2f2f2; }
+
+        tbody tr:hover { background: #fbfbfb; }
+
+        .alert { padding:1rem; border-radius:8px; margin-bottom:1rem; border-left:4px solid; }
+        .alert-info { background:#eef7ff; border-color:#7cc2ff; color:#0b2a3b; }
+        .alert-success { background:#eafcec; border-color:#28a745; color:#0b4a2b; }
+
+        .welcome-section { text-align:center; margin-bottom:2.5rem; }
+        .welcome-section h1 { font-size:2.6rem; color: #111; margin-bottom:0.5rem; }
+        .welcome-section p { color:#444; }
+
+        .action-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; margin:2rem 0; }
+        .action-card { background: linear-gradient(135deg, rgba(40,167,69,0.04), rgba(40,167,69,0.02)); border-radius:12px; padding:1.5rem; text-align:center; box-shadow:0 8px 30px rgba(18,18,18,0.04); }
+        .action-card h3 { color:#111; margin-bottom:0.5rem; }
+
+        .no-data { text-align:center; padding:2.5rem 1rem; color:#999; }
+
+        footer { background: transparent; padding:2rem; text-align:center; color:#666; border-top:1px solid #f2f2f2; margin-top:auto; }
+
+        .breadcrumb { display:flex; gap:0.5rem; margin-bottom:1.25rem; color:#999; font-size:0.95rem; }
+        .breadcrumb a { color:#28a745; text-decoration:none; }
+        .breadcrumb a:hover { text-decoration:underline; }
+
+        @media (max-width: 768px) {
+            header { padding: 0.8rem 1rem; }
+            nav { flex-direction: column; gap: 0.6rem; }
+            .nav-links { flex-direction: row; gap: .8rem; }
+            main { margin:1rem auto; padding:0 0.75rem; }
+            .container { padding: 1rem; }
+            h1 { font-size:1.5rem; }
+            .file-list { grid-template-columns: 1fr; }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🔍 Plagiarism Detector</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Plagiarism Detection System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

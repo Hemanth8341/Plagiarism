@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - PlagCheck{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0;">
+  <div class="container">
+    <div class="text-center" style="margin-bottom: 50px;">
+      <h1 style="color: var(--primary-color); font-weight: 700;">Welcome, {{ username }}!</h1>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">What would you like to check today?</p>
+    </div>
+
+    <div class="card-grid">
+      <!-- Text Plagiarism Card -->
+      <div class="card text-center" style="padding: 40px; transition: transform 0.2s;">
+        <div
+          style="background: rgba(20, 110, 180, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+          <i class="fas fa-file-alt" style="font-size: 2.5rem; color: var(--accent-color);"></i>
+        </div>
+        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Text Analysis</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Upload text documents to check for plagiarism against
+          our corpus.</p>
+        <a href="{% url 'UploadSuspiciousFile' %}" class="btn btn-primary" style="width: 100%;">Check Text</a>
+      </div>
+
+      <!-- Image Plagiarism Card -->
+      <div class="card text-center" style="padding: 40px; transition: transform 0.2s;">
+        <div
+          style="background: rgba(6, 125, 98, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+          <i class="fas fa-image" style="font-size: 2.5rem; color: var(--success-color);"></i>
+        </div>
+        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Image Analysis</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Upload images to detect visual similarities and
+          potential copies.</p>
+        <a href="{% url 'UploadSuspiciousImage' %}" class="btn btn-secondary"
+          style="width: 100%; background-color: var(--success-color); border: none;">Check Images</a>
+      </div>
+    </div>
+
+    <!-- Detection Logic Info Section -->
+    <div style="margin-top: 50px;">
+      <h3
+        style="color: var(--primary-color); margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+        <i class="fas fa-info-circle me-2"></i> How It Works
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px;">
+
+        <!-- Text Logic Info -->
+        <div class="card" style="padding: 30px; border-left: 5px solid var(--accent-color);">
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div style="background: rgba(20, 110, 180, 0.1); padding: 15px; border-radius: 12px;">
+              <i class="fas fa-paragraph" style="font-size: 1.8rem; color: var(--accent-color);"></i>
+            </div>
+            <div>
+              <h5 style="color: var(--primary-color); font-weight: 700; margin-bottom: 10px;">Text Detection Logic</h5>
+              <p style="color: var(--text-muted); margin-bottom: 10px;">
+                We calculate the <strong>Longest Common Subsequence (LCS)</strong> to measure structural similarity
+                between documents.
+              </p>
+              <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                <p
+                  style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--primary-color); margin-bottom: 5px;">
+                  <i class="fas fa-gavel me-2"></i>Decision Rule:
+                </p>
+                <ul style="margin: 0; padding-left: 20px; color: #4b5563;">
+                  <li style="margin-bottom: 5px;"><strong>If Score >= 60%:</strong> <span
+                      style="color: #dc2626; font-weight: bold;">Plagiarism Detected</span></li>
+                  <li><strong>If Score < 60%:</strong> <span style="color: #059669; font-weight: bold;">No Plagiarism
+                          (Safe)</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Logic Info -->
+        <div class="card" style="padding: 30px; border-left: 5px solid var(--success-color);">
+          <div style="display: flex; align-items: flex-start; gap: 20px;">
+            <div style="background: rgba(6, 125, 98, 0.1); padding: 15px; border-radius: 12px;">
+              <i class="fas fa-chart-bar" style="font-size: 1.8rem; color: var(--success-color);"></i>
+            </div>
+            <div>
+              <h5 style="color: var(--primary-color); font-weight: 700; margin-bottom: 10px;">Image Detection Logic</h5>
+              <p style="color: var(--text-muted); margin-bottom: 10px;">
+                We use <strong>Histogram Intersection</strong> to compare color and intensity distributions
+                pixel-by-pixel.
+              </p>
+              <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                <p
+                  style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--success-color); margin-bottom: 5px;">
+                  <i class="fas fa-gavel me-2"></i>Decision Rule:
+                </p>
+                <ul style="margin: 0; padding-left: 20px; color: #4b5563;">
+                  <li style="margin-bottom: 5px;"><strong>If Similarity >= 60%:</strong> <span
+                      style="color: #dc2626; font-weight: bold;">Plagiarism Detected</span></li>
+                  <li><strong>If Similarity < 60%:</strong> <span style="color: #059669; font-weight: bold;">No
+                          Plagiarism (Safe)</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="margin-top: 50px;">
+      <h3
+        style="color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+        <i class="fas fa-database me-2"></i> System Database
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <a href="{% url 'UploadSource' %}" class="card"
+          style="text-decoration: none; padding: 20px; display: flex; align-items: center; gap: 15px; transition: transform 0.2s;">
+          <i class="fas fa-book" style="font-size: 1.5rem; color: var(--text-muted);"></i>
+          <div>
+            <h5 style="color: var(--primary-color); margin: 0;">View Text Corpus</h5>
+            <small style="color: var(--text-muted);">Browse reference documents</small>
+          </div>
+        </a>
+        <a href="{% url 'UploadSourceImage' %}" class="card"
+          style="text-decoration: none; padding: 20px; display: flex; align-items: center; gap: 15px; transition: transform 0.2s;">
+          <i class="fas fa-images" style="font-size: 1.5rem; color: var(--text-muted);"></i>
+          <div>
+            <h5 style="color: var(--primary-color); margin: 0;">View Image Corpus</h5>
+            <small style="color: var(--text-muted);">Browse reference images</small>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

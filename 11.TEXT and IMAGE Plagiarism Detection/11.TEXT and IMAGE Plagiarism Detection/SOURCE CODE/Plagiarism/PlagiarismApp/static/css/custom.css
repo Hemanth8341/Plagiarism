@@ -1,0 +1,110 @@
+/* Centralized custom styles for PlagiarismApp
+   - Color palette: navy accent + warm CTA, dark text on white cards
+   - Responsive rules for auth cards, forms, and upload area
+*/
+:root{
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #0f1724;
+  --muted: #6b7280;
+  --accent: #0b3d91; /* navy */
+  --accent-warm: #f59e0b; /* amber CTA */
+}
+
+html,body{height:100%;}
+body{background:var(--bg); color:var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+/* Head / nav */
+header{background:var(--accent); color:#fff; padding:14px 0; text-align:center;}
+nav{padding:12px 0; text-align:center}
+nav .nav-links{display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap}
+nav a{color:var(--accent); text-decoration:none; padding:8px 12px; border-radius:8px; font-weight:600}
+nav a.btn-nav{background:transparent; border:1px solid rgba(15,23,36,0.04)}
+
+/* Cards / containers */
+.container{max-width:980px; margin:34px auto; padding:0 18px}
+.card{background:var(--card); border-radius:10px; box-shadow:0 6px 18px rgba(15,23,36,0.04); padding:22px; border:1px solid rgba(15,23,36,0.04)}
+
+/* Auth card */
+.auth-card{max-width:420px; margin:0 auto}
+.auth-card-header{background:var(--accent); color:#fff; padding:14px 18px; border-bottom-left-radius:0; border-bottom-right-radius:0}
+.auth-card .card-body{padding:18px}
+
+/* Buttons */
+.button, .btn{display:inline-flex; align-items:center; gap:8px; font-weight:700; cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent)); color:#fff; padding:10px 18px; border-radius:8px; border:none}
+.btn-secondary{background:transparent; color:var(--accent); border:1px solid rgba(15,23,36,0.06); padding:8px 14px; border-radius:8px}
+
+.auth-submit{min-width:200px; padding:10px 18px; border-radius:8px; background:var(--accent-warm) !important; color:#081029 !important; border:none !important}
+
+/* Forms */
+.form-label{color:var(--text); font-weight:600; margin-bottom:8px}
+input[type="file"]{display:none}
+.file-upload-wrapper{position:relative; border:2px dashed rgba(15,23,36,0.08); border-radius:10px; padding:28px; text-align:center; background:transparent}
+.file-upload-wrapper:hover{border-color:rgba(11,61,145,0.08)}
+.file-label{color:var(--muted)}
+.helper-text{color:var(--muted); margin-top:8px}
+
+/* Results table */
+.results-table{width:100%; border-collapse:collapse; margin-top:16px}
+.results-table th, .results-table td{padding:12px 14px; border:1px solid rgba(15,23,36,0.04); text-align:left}
+.results-table th{background:rgba(11,61,145,0.04); color:var(--text); font-weight:700}
+.results-output{color:var(--text);}
+
+/* Responsive */
+@media (max-width:768px){
+  .auth-card{max-width:95%; padding:0 12px}
+  .auth-submit{width:100%; min-width:0}
+  .btn-primary, .btn-secondary{width:100%; justify-content:center}
+  .container{padding:0 14px}
+}
+
+/* Form sections, upload previews, info boxes */
+.form-section{background:var(--card); border-radius:12px; padding:28px; box-shadow:0 10px 30px rgba(15,23,36,0.04);}
+.form-header{text-align:center;margin-bottom:24px}
+.form-header h2{margin-bottom:8px;color:var(--accent);font-size:1.6rem}
+.subtitle{color:var(--muted);font-size:1rem}
+.upload-form{margin-bottom:20px}
+.preview-section{margin:18px 0;text-align:center;padding:12px;background:var(--surface);border-radius:10px}
+.preview-image{max-width:100%;max-height:300px;border-radius:8px}
+.info-box{background:#fff;border-left:4px solid var(--accent);padding:18px;border-radius:8px;margin-top:16px}
+.info-box h3{color:var(--accent);margin-top:0;margin-bottom:10px}
+.info-box ul{color:var(--text);padding-left:18px;line-height:1.6}
+
+/* Animations */
+.animate-fade-in{animation:fadeInUp .6s ease both}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{transition:transform .18s ease, box-shadow .18s ease}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(15,23,36,0.06)}
+
+/* Results styles */
+.results-output{color:var(--text)}
+.results-section{padding:8px}
+.results-header .subtitle{color:var(--muted)}
+
+/* Results and source listing */
+.results-section{background:var(--card); border-radius:12px; padding:24px; box-shadow:0 8px 28px rgba(15,23,36,0.04)}
+.results-header{text-align:center;margin-bottom:18px}
+.results-header h2{color:var(--accent);font-size:1.6rem}
+.results-content{margin-top:12px}
+.results-content table{width:100%;border-collapse:collapse}
+.results-content th, .results-content td{padding:12px 14px;border:1px solid rgba(15,23,36,0.04)}
+.action-buttons{display:flex;gap:12px;justify-content:center;margin-top:18px}
+
+/* Image results spacing and layout */
+.results-output img{display:block;max-width:100%;height:auto;border-radius:8px;margin:10px 0}
+.results-output .image-pair{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+.results-output .image-pair img{max-width:48%}
+.results-output .image-single{margin-bottom:12px}
+
+/* Ensure text inside results is readable */
+.results-output{color:var(--text); background:transparent}
+
+.source-section{background:var(--card); border-radius:12px; padding:24px; box-shadow:0 8px 28px rgba(15,23,36,0.04)}
+.section-header{text-align:center;margin-bottom:18px}
+.section-header h2{color:var(--accent);font-size:1.6rem}
+.files-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:12px}
+.file-card{background:#fff;border-radius:10px;padding:14px;border:1px solid rgba(15,23,36,0.04)}
+.file-card h5{margin:0 0 8px 0;color:var(--accent)}
+
+

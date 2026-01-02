@@ -1,0 +1,256 @@
+{% extends "base_new.html" %}
+{% load static %}
+
+{% block title %}Plagiarism Analysis Result{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="row mb-5">
+    <div class="col-lg-8 mx-auto text-center">
+      <h1 class="page-title mb-3">Analysis Report</h1>
+      <p class="lead text-muted">Here is the detailed breakdown of the plagiarism detection analysis.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Score Card -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-lg">
+        <div class="card-body text-center d-flex flex-col flex-column justify-content-center align-items-center p-4">
+          <h4 class="mb-4 text-primary fw-bold">Similarity Score</h4>
+
+          <div class="position-relative d-inline-flex align-items-center justify-content-center mb-4">
+            <svg class="progress-ring" width="160" height="160">
+              <circle class="progress-ring__circle-bg" stroke="#f3f4f6" stroke-width="12" fill="transparent" r="70"
+                cx="80" cy="80" />
+              <circle class="progress-ring__circle"
+                stroke="{% if similarity_score >= 60 %}#ef4444{% elif similarity_score >= 30 %}#f59e0b{% else %}#10b981{% endif %}"
+                stroke-width="12" fill="transparent" r="70" cx="80" cy="80" />
+            </svg>
+            <div class="position-absolute top-50 start-50 translate-middle text-center">
+              <span class="fw-bold text-dark" style="font-size: 1.75rem;">{{ score }}%</span>
+            </div>
+          </div>
+
+          <div
+            class="badge rounded-pill px-4 py-2 mb-3 {% if similarity_score >= 60 %}bg-danger{% elif similarity_score >= 30 %}bg-warning text-dark{% else %}bg-success{% endif %}">
+            {{ result_status }}
+          </div>
+
+          <div class="mt-3 text-start w-100 bg-light p-3 rounded">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted small">Suspicious File:</span>
+              <span class="fw-semibold text-break">{{ suspicious_file }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted small">Source Match:</span>
+              <span class="fw-semibold text-break">{{ best_match_file }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Card -->
+    <div class="col-md-8">
+      <div class="card h-100 border-0 shadow-lg" style="min-height: 500px;">
+        <div class="card-header bg-white border-bottom-0 pt-4 px-4 pb-0">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active rounded-pill px-4" id="pills-comparison-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-comparison" type="button" role="tab">
+                <i class="fas fa-columns me-2"></i> Side-by-Side Comparison
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body p-0">
+          <div class="tab-content h-100" id="pills-tabContent">
+            <!-- Comparison View -->
+            <div class="tab-pane fade show active h-100" id="pills-comparison" role="tabpanel">
+              <div class="row g-0 h-100 border-top">
+                <!-- Suspicious Text -->
+                <div class="col-md-6 border-end">
+                  <div class="p-3 bg-light border-bottom">
+                    <h6 class="mb-0 text-danger"><i class="fas fa-file-alt me-2"></i>Uploaded Content</h6>
+                  </div>
+                  <div class="p-4 overflow-auto"
+                    style="height: 500px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6;">
+                    <div id="suspicious-content" class="text-content">
+                      {{ suspicious_text }}
+                    </div>
+                  </div>
+                </div>
+                <!-- Source Text -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light border-bottom">
+                    <h6 class="mb-0 text-primary"><i class="fas fa-database me-2"></i>Matched Source Content</h6>
+                  </div>
+                  <div class="p-4 overflow-auto"
+                    style="height: 500px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6;">
+                    {% if source_text %}
+                    <div id="source-content" class="text-content">
+                      {{ source_text }}
+                    </div>
+                    {% else %}
+                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                      <i class="fas fa-search-minus fa-3x mb-3"></i>
+                      <p>No matching source text found.</p>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <a href="{% url 'UploadSuspiciousFile' %}" class="btn btn-primary btn-lg px-5 shadow-sm">
+        <i class="fas fa-redo me-2"></i> Check Another File
+      </a>
+      <a href="{% url 'UserScreen' %}" class="btn btn-outline-secondary btn-lg px-5 ms-3">
+        Dashboard
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .progress-ring__circle {
+    transition: stroke-dashoffset 1s ease-in-out;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+
+  .text-content {
+    white-space: pre-wrap;
+    color: #4b5563;
+  }
+
+  .highlight {
+    background-color: rgba(254, 202, 202, 0.5);
+    /* Light red */
+    border-bottom: 2px solid #ef4444;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  .match-highlight {
+    background-color: rgba(255, 237, 213, 0.5);
+    /* Light orange */
+    border-bottom: 2px solid #f59e0b;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 1. Circular Progress Animation
+    const circle = document.querySelector('.progress-ring__circle');
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+    const score = parseFloat("{{ score }}");
+
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    const offset = circumference - (score / 100) * circumference;
+
+    // Small delay to ensure transition works on load
+    setTimeout(() => {
+      circle.style.strokeDashoffset = offset;
+    }, 100);
+
+    // 2. Text Comparison Highlighting
+    // This is a simple client-side highlighter. 
+    // In a production app, the backend should return the exact matching indices (e.g. from LCS).
+    // Here we will try to highlight words that appear in both.
+
+    const suspiciousDiv = document.getElementById('suspicious-content');
+    const sourceDiv = document.getElementById('source-content');
+
+    if (suspiciousDiv && sourceDiv) {
+      const suspiciousText = suspiciousDiv.innerText;
+      const sourceText = sourceDiv.innerText;
+
+      // Basic tokenization
+      const getTokens = (text) => text.toLowerCase().match(/\b\w+\b/g) || [];
+      const sourceTokens = new Set(getTokens(sourceText));
+
+      // Function to highlight matching words in suspicious text
+      function highlightMatches(container, tokensToCheckAgainst) {
+        const textNodes = [];
+        const walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while (node = walk.nextNode()) textNodes.push(node);
+
+        textNodes.forEach(node => {
+          const text = node.nodeValue;
+          const words = text.split(/(\b\w+\b)/g); // Split keeping delimiters
+
+          const span = document.createElement('span');
+
+          words.forEach(word => {
+            const cleanWord = word.toLowerCase();
+            // Filter out very common short words to avoid noise if desired, or keep all
+            if (cleanWord.length > 3 && tokensToCheckAgainst.has(cleanWord)) {
+              const mark = document.createElement('mark');
+              mark.className = 'highlight';
+              mark.textContent = word;
+              // Add tooltip
+              mark.title = "Match found in source";
+              span.appendChild(mark);
+            } else {
+              span.appendChild(document.createTextNode(word));
+            }
+          });
+
+          node.parentNode.replaceChild(span, node);
+        });
+      }
+
+      // Highlight suspicious text words that are in source
+      highlightMatches(suspiciousDiv, sourceTokens);
+
+      // Highlight source text words that are in suspicious (reverse check)
+      const suspiciousTokens = new Set(getTokens(suspiciousText));
+
+      // Reuse logic but maybe different style if needed
+      function highlightSource(container, tokensToCheckAgainst) {
+        const textNodes = [];
+        const walk = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while (node = walk.nextNode()) textNodes.push(node);
+
+        textNodes.forEach(node => {
+          const text = node.nodeValue;
+          const words = text.split(/(\b\w+\b)/g);
+
+          const span = document.createElement('span');
+
+          words.forEach(word => {
+            const cleanWord = word.toLowerCase();
+            if (cleanWord.length > 3 && tokensToCheckAgainst.has(cleanWord)) {
+              const mark = document.createElement('mark');
+              mark.className = 'match-highlight';
+              mark.textContent = word;
+              span.appendChild(mark);
+            } else {
+              span.appendChild(document.createTextNode(word));
+            }
+          });
+
+          node.parentNode.replaceChild(span, node);
+        });
+      }
+      highlightSource(sourceDiv, suspiciousTokens);
+    }
+  });
+</script>
+{% endblock %}

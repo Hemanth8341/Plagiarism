@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Plagiarism Detection{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="welcome-section">
+        <h1>Welcome, {{ username }}! 👋</h1>
+        <p>Manage your plagiarism detection tasks</p>
+    </div>
+
+    <div class="action-grid">
+        <div class="action-card">
+            <h3>📄 Text Plagiarism Detection</h3>
+            <p>Upload and check text documents for plagiarism against a source corpus.</p>
+            <a href="/upload-suspicious-file/" class="btn btn-primary">Check Text</a>
+        </div>
+
+        <div class="action-card">
+            <h3>🖼️ Image Plagiarism Detection</h3>
+            <p>Upload and check images for plagiarism against a source image library.</p>
+            <a href="/upload-suspicious-image/" class="btn btn-primary">Check Image</a>
+        </div>
+
+        <div class="action-card">
+            <h3>📚 Manage Source Files</h3>
+            <p>View and manage your source text documents for comparison.</p>
+            <a href="/upload-source/" class="btn btn-primary">View Sources</a>
+        </div>
+
+        <div class="action-card">
+            <h3>🗂️ Manage Source Images</h3>
+            <p>View and manage your source images for comparison.</p>
+            <a href="/upload-source-image/" class="btn btn-primary">View Images</a>
+        </div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 2rem; border-radius: 8px; margin-top: 2rem;">
+        <h2 style="margin-top: 0;">How it works</h2>
+        <ol style="color: #666; line-height: 1.8; margin-left: 1.5rem;">
+            <li><strong>Upload a document:</strong> Choose a text file or image to check</li>
+            <li><strong>Select source files:</strong> Our system compares against your source corpus</li>
+            <li><strong>Get results:</strong> View detailed plagiarism detection results</li>
+            <li><strong>Take action:</strong> Review matches and make informed decisions</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}

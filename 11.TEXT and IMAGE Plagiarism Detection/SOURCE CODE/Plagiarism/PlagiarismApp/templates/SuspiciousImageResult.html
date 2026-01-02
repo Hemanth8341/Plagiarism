@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Image Plagiarism Detection Results{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="/upload-suspicious-image/">Check Image</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Results</span>
+    </div>
+
+    <h1>📊 Image Plagiarism Detection Results</h1>
+    
+    <div style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%); border: 2px solid #28a745; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+        <p style="margin: 0; color: #155724;"><strong>✅ Analysis Complete!</strong> Your image has been compared against all source images. Review the results below.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #667eea;">
+            <div style="font-size: 0.9rem; color: #999; margin-bottom: 0.5rem;">Total Matches</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #667eea;">--</div>
+        </div>
+        <div style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #dc3545;">
+            <div style="font-size: 0.9rem; color: #999; margin-bottom: 0.5rem;">Max Match %</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #dc3545;">--</div>
+        </div>
+        <div style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107;">
+            <div style="font-size: 0.9rem; color: #999; margin-bottom: 0.5rem;">Flagged Images</div>
+            <div style="font-size: 2rem; font-weight: 700; color: #f39c12;">--</div>
+        </div>
+    </div>
+
+    <h2>Detailed Results</h2>
+    {% if data %}
+        <div style="overflow-x: auto;">
+            {{ data|safe }}
+        </div>
+    {% else %}
+        <div class="no-data">
+            <p>No plagiarism detected.</p>
+            <p style="color: #ccc; font-size: 0.9rem;">Your image appears to be original.</p>
+        </div>
+    {% endif %}
+
+    <div class="form-actions" style="margin-top: 2rem;">
+        <a href="/upload-suspicious-image/" class="btn btn-primary">Check Another Image</a>
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+    </div>
+
+    <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #667eea;">
+        <h3 style="color: #667eea; margin-top: 0;">🔍 Understanding the Results</h3>
+        <ul style="color: #666; line-height: 1.8; margin-left: 1.5rem; margin-bottom: 0;">
+            <li><strong>Source Image:</strong> The image from the library that matches</li>
+            <li><strong>Similarity %:</strong> How similar the images are (0-100%)</li>
+            <li><strong>Match Status:</strong> GREEN = Low similarity, YELLOW = Medium, RED = High</li>
+            <li><strong>Detection Method:</strong> Algorithm used for comparison</li>
+            <li><strong>Features Found:</strong> Number of matching features detected</li>
+            <li><strong>Confidence:</strong> Confidence level of the match detection</li>
+        </ul>
+    </div>
+
+    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+        <h3 style="color: #667eea; margin-top: 0;">💡 Tips for Image Analysis</h3>
+        <ul style="color: #666; line-height: 1.8; margin-left: 1.5rem; margin-bottom: 0;">
+            <li>Images that are cropped, scaled, or rotated may show lower similarity</li>
+            <li>Compressed or heavily edited images might have reduced match scores</li>
+            <li>High-quality original images typically show better results</li>
+            <li>Multiple detection methods provide comprehensive comparison</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

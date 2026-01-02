@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Source Images - Plagiarism Detection{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Source Images</span>
+    </div>
+
+    <h1>🖼️ Source Images</h1>
+    <p>Manage and view all available source images used for image plagiarism comparison.</p>
+
+    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+        <h3 style="color: #667eea; margin-top: 0;">Upload New Source Image</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="source_image">Select Image File</label>
+                <input type="file" id="source_image" name="source_image" accept="image/*" required>
+                <small style="color: #999;">Upload an image (JPG, PNG, GIF, etc.) to add to your source image library</small>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Upload Image</button>
+                <a href="/" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <h2>Available Source Images</h2>
+    {% if data %}
+        <div style="overflow-x: auto;">
+            {{ data|safe }}
+        </div>
+    {% else %}
+        <div class="no-data">
+            <p>No source images available yet.</p>
+            <p style="color: #ccc; font-size: 0.9rem;">Upload an image using the form above to get started.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

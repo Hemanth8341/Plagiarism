@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Source Text Files{% endblock %}
+
+{% block content %}
+<section style="display: flex; justify-content: center; padding: 40px 0;">
+    <div class="card" style="width: 100%; max-width: 900px; padding: 40px;">
+        <div class="text-center" style="margin-bottom: 30px;">
+            <i class="fas fa-book" style="font-size: 3rem; color: var(--accent-color);"></i>
+            <h2 style="color: var(--primary-color); margin-top: 15px;">Text Corpus Library</h2>
+            <p style="color: var(--text-muted);">Reference documents used for plagiarism detection</p>
+        </div>
+
+        <div style="margin-bottom: 30px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+            <div style="max-height: 500px; overflow-y: auto;">
+                {{ data|safe }}
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <a href="{% url 'UploadSuspiciousFile' %}" class="btn btn-primary">
+                <i class="fas fa-search me-2"></i> Check Text Plagiarism
+            </a>
+            <a href="{% url 'UserScreen' %}" class="btn btn-secondary">
+                <i class="fas fa-home me-2"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

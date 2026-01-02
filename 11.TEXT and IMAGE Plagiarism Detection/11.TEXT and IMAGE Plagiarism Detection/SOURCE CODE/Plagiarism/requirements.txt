@@ -1,0 +1,14 @@
+# Requirements for the Plagiarism Detection project
+# Python 3.7+
+# Path: 11.TEXT and IMAGE Plagiarism Detection/SOURCE CODE/Plagiarism/requirements.txt
+
+Django>=3.2
+numpy>=1.21
+scipy>=1.7
+scikit-learn>=1.0
+nltk>=3.6
+Pillow>=9.0
+opencv-python>=4.5
+python-docx>=0.8.11
+
+# Add any additional libraries your project uses below

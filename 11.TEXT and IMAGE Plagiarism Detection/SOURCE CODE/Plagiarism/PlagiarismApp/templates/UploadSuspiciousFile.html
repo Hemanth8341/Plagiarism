@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Check Text for Plagiarism - Plagiarism Detection{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Check Text</span>
+    </div>
+
+    <h1>📄 Check Text for Plagiarism</h1>
+    <p>Upload a suspicious text file to compare it against our source corpus and detect potential plagiarism.</p>
+
+    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="suspicious_file">📤 Upload Text File</label>
+                <input type="file" id="suspicious_file" name="suspicious_file" accept=".txt" required>
+                <small style="color: #999;">Choose a .txt file to check for plagiarism</small>
+                <div id="file-name-display" style="margin-top: 0.5rem; font-weight: 600; color: #28a745; display: none;">✅ Selected: <span id="file-name-text"></span></div>
+            </div>
+
+            <script>
+                document.getElementById('suspicious_file').addEventListener('change', function() {
+                    const fileName = this.files[0]?.name;
+                    if (fileName) {
+                        document.getElementById('file-name-text').textContent = fileName;
+                        document.getElementById('file-name-display').style.display = 'block';
+                    } else {
+                        document.getElementById('file-name-display').style.display = 'none';
+                    }
+                });
+            </script>
+
+            <div class="form-group">
+                <label for="threshold">Similarity Threshold (%)</label>
+                <input type="number" id="threshold" name="threshold" min="0" max="100" value="70" required>
+                <small style="color: #999;">Set the minimum similarity percentage to flag (0-100)</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Analyze Document</button>
+                <a href="/" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="color: #667eea; margin-top: 0;">📋 What to expect:</h3>
+        <ul style="color: #666; line-height: 1.8; margin-left: 1.5rem;">
+            <li>Fast analysis of your document</li>
+            <li>Detailed comparison with source files</li>
+            <li>Percentage similarity scores</li>
+            <li>Highlighted matching sections</li>
+            <li>Easy-to-read results table</li>
+        </ul>
+    </div>
+
+    <div style="background: #e7f3ff; border: 2px solid #667eea; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+        <p style="margin: 0; color: #333;"><strong>ℹ️ Tip:</strong> For best results, ensure your document is clear and in standard text format. The system will compare against all available source files in the corpus.</p>
+    </div>
+</div>
+{% endblock %}
