@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: plagiarism-detection
+    runtime: python3
+    buildCommand: "pip install -r requirements.txt && python -c \"import nltk; nltk.download('punkt'); nltk.download('stopwords')\" && python manage.py migrate && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn Plagiarism.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Plagiarism.settings
+      - key: SECRET_KEY
+        generateValue: true
