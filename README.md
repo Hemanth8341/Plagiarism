@@ -40,101 +40,130 @@ The website is fully responsive and optimized for all screen sizes. It works per
 ## 📂 Project Structure
 
 ```text
-Plagiarism/
-├── PlagiarismApp/           # Main application logic
-│   ├── migrations/          # Database migrations
-│   ├── static/              # CSS, JS, and Images
-│   │   ├── css/            # Custom stylesheets
-│   │   └── images/         # Static assets
-│   ├── templates/           # HTML files
-│   │   ├── base.html       # Base layout
-│   │   ├── index.html      # Landing page
-│   │   └── ...             # Other page templates
-│   ├── views.py             # Main logic (Text & Image detection)
-│   ├── urls.py              # URL routing
-│   └── models.py            # Database models
-├── corpus-20090418/         # Source text documents for comparison
-├── images/                  # Source images for comparison
-├── manage.py                # Django CLI utility
-├── run.py                   # ★ Auto-launcher script
-└── requirements.txt         # List of dependencies
+plagarism/
+├── README.md
+└── plagarism-main/
+   ├── IMG-TEXT-PLAG/
+   │   └── SOURCE CODE/
+   │       ├── views.py
+   │       └── Plagiarism/                   # Main Django project
+   │           ├── manage.py
+   │           ├── run.py
+   │           ├── requirements.txt
+   │           ├── db.sqlite3
+   │           ├── corpus-20090418/          # Source text corpus
+   │           ├── images/                   # Source image corpus
+   │           ├── Plagiarism/               # Project settings package
+   │           ├── PlagiarismApp/            # App logic (views, urls, models)
+   │           │   ├── migrations/
+   │           │   ├── static/
+   │           │   └── templates/
+   │           └── staticfiles/
+   └── SOURCE CODE/
+      ├── run.py
+      └── PlagiarismApp/
+         └── templates/
+            ├── base.html
+            ├── UploadSource.html
+            ├── UploadSourceImage.html
+            ├── UploadSuspiciousFile.html
+            ├── UploadSuspiciousImage.html
+            ├── SuspiciousFileResult.html
+            ├── SuspiciousImageResult.html
+            └── UserScreen.html
 ```
 
-## 🗺️ File Navigation Guide
-- **`run.py`**: The easiest way to start the project. It automatically sets up your environment, installs dependencies, migrates the database, and launches the server.
-- **`manage.py`**: The standard Django command-line tool for administrative tasks.
-- **`PlagiarismApp/views.py`**: Contains the core logic for plagiarism detection (LCS algorithm and Histogram comparison).
-- **`templates/`**: Holds all the HTML files that users see in the browser.
-- **`static/`**: Contains the styling (CSS) and code (JS) that makes the site look good and work interactively.
+## � How to Run the Project
 
-## 🚀 How to Run the Project (Step-by-Step)
+### 🏁 Quick Start (Recommended)
 
-Follow these simple steps to get the project running on your local machine.
+1. **Clone the Repository**
+   ```bash
+   git clone <repository_url>
+   cd "plagarism/plagarism-main/IMG-TEXT-PLAG/SOURCE CODE/Plagiarism"
+   ```
 
-### 1. Clone the Repository
-Open your terminal or command prompt and run:
-```bash
-git clone <repository_url>
-cd plagarism
-```
+2. **Run the Auto-Launcher**
+   The project includes a `run.py` script that handles everything for you:
+    - Creates a virtual environment (`.venv`).
+    - Installs all required dependencies.
+    - Applies database migrations.
+    - Starts the development server.
 
-### 2. Navigate to Source Directory
-The source code is located deep in the folder structure. Navigate to the `Plagiarism` directory:
-```bash
-cd "11.TEXT and IMAGE Plagiarism Detection/11.TEXT and IMAGE Plagiarism Detection/SOURCE CODE/Plagiarism"
-```
+   **On Windows:**
+   ```cmd:
+   run:
+   cd "c:\Users\heman\OneDrive\Desktop\plagarism\plagarism-main\IMG-TEXT-PLAG\SOURCE CODE\Plagiarism"
+   python run.py
+   ```
+   **On macOS / Linux:**
+   ```bash
+   python3 run.py
+   ```
 
-### 3. Run the Auto-Launcher
-The project includes a `run.py` script that handles everything for you (venv creation, requirements, migration, and server start).
-
-**Windows:**
-```bash
-python run.py
-```
-
-**macOS / Linux:**
-```bash
-python3 run.py
-```
-
-*The script will print the local URL (usually `http://127.0.0.1:8000`) which you can open in your browser.*
+3. **Access the Application**
+   - Once the server is running, open your web browser and go to:
+   - **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
 ---
 
-## 📦 Virtual Environment (venv) Setup
-If you prefer to set it up manually, follows these steps:
+### 🛠️ Manual Setup (For Advanced Users)
 
-### 1. Create Virtual Environment
-```bash
-python -m venv .venv
-```
+If you prefer to set up the project manually:
 
-### 2. Activate Virtual Environment
-- **Windows:**
-  ```bash
-  .venv\Scripts\activate
-  ```
-- **macOS / Linux:**
-  ```bash
-  source .venv/bin/activate
-  ```
+1. **Create and Activate Virtual Environment**
+   ```bash
+   # Create venv
+   python -m venv .venv
+   
+   # Activate on Windows
+   .venv\Scripts\activate
+   
+   # Activate on macOS/Linux
+   source .venv/bin/activate
+   ```
 
-### 3. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+2. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 4. Run the Server
-```bash
-python manage.py runserver
-```
+3. **Apply Database Migrations**
+   ```bash
+   python manage.py migrate
+   ```
 
-## ✅ Prerequisites
-- **Python 3.7 or higher**: Make sure Python is installed on your system.
-  - Check by running `python --version` in your terminal.
-- **Git**: To clone the repository.
+4. **Run the Server**
+   ```bash
+   python manage.py runserver
+   ```
+   - To stop the server, press `CTRL + C` in the terminal.
 
-## 📝 Notes for New Users
-- **First Run**: The first time you run the project, it might take a minute to download and install all the required libraries (like OpenCV and Django).
-- **Admin**: The default setup creates pages for users. To manage the site, you can create a superuser via `python manage.py createsuperuser` if needed, though the main functionality is accessible via the user dashboard.
-- **Stopping**: To stop the server, go to your terminal and press `CTRL + C`.
+---
+
+## 💡 How It Works
+
+This system detects plagiarism in two ways:
+
+1.  **Text Analysis**: It uses the **Longest Common Subsequence (LCS)** algorithm to compare the word sequence of an uploaded text file against a corpus of source documents. The similarity score is based on the length of the longest matching sequence.
+2.  **Image Analysis**: It uses **Histogram Intersection** to compare the color distribution of an uploaded image against a library of source images. A high intersection score suggests a potential visual match.
+
+In both cases, a similarity score is calculated, and if it exceeds a predefined threshold (e.g., 60%), the content is flagged as potential plagiarism.
+
+---
+
+## ❓ FAQ
+
+**Q: How do I add more source files?**
+A: Place new `.txt` files in the `corpus-20090418/` directory and new images in the `images/` directory. The system will automatically pick them up.
+
+**Q: How do I reset the database?**
+A: Delete the `db.sqlite3` file and run the migration command again: `python manage.py migrate`.
+
+**Q: Can I create an admin user?**
+A: Yes. Run `python manage.py createsuperuser` and follow the prompts to create an administrator account.
+
+---
+
+## 🏆 Credits
+Developed by B.Hemanth Reddy. For academic and demonstration use.
